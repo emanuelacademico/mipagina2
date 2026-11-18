@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafetería Aroma | Gestor de pedidos</title>
+  <link rel="stylesheet" href="CSS/estilos.css">
+  <script src="JS/app.js" defer></script>
+</head>
+<body>
+
+  <header class="cabecera">
+    <h1>☕ Cafetería Aroma</h1>
+    <p>Gestor de pedidos · Semana 10</p>
+    <button type="button" id="btnTema" class="btn-tema" aria-pressed="false">🌙 Modo oscuro</button>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ===== Formulario ===== -->
+    <section class="panel">
+      <h2>Nuevo pedido</h2>
+      <form id="frmPedido" novalidate>
+
+        <label for="cliente">Cliente</label>
+        <input type="text" id="cliente" name="cliente" placeholder="Nombre del cliente" autocomplete="off">
+        <small class="error" id="errCliente"></small>
+
+        <label for="producto">Producto</label>
+        <select id="producto" name="producto">
+          <option value="">-- Seleccione --</option>
+          <option value="Café americano" data-precio="6.50">Café americano · S/ 6.50</option>
+          <option value="Capuchino" data-precio="9.00">Capuchino · S/ 9.00</option>
+          <option value="Latte" data-precio="9.50">Latte · S/ 9.50</option>
+          <option value="Chocolate caliente" data-precio="8.00">Chocolate caliente · S/ 8.00</option>
+          <option value="Croissant" data-precio="5.50">Croissant · S/ 5.50</option>
+          <option value="Torta de chocolate" data-precio="12.00">Torta de chocolate · S/ 12.00</option>
+        </select>
+        <small class="error" id="errProducto"></small>
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="20">
+        <small class="error" id="errCantidad"></small>
+
+        <label for="nota">Nota (opcional)</label>
+        <textarea id="nota" name="nota" rows="2" maxlength="60" placeholder="Ej.: sin azúcar"></textarea>
+        <small class="contador" id="contadorNota">0 / 60</small>
+
+        <p class="subtotal">Subtotal: <strong id="subtotal">S/ 0.00</strong></p>
+
+        <button type="submit" class="btn-principal">Agregar pedido</button>
+        <button type="button" id="btnCancelar" class="btn-cancelar" hidden>Cancelar edición</button>
+      </form>
+    </section>
+
+    <!-- ===== Lista de pedidos ===== -->
+    <section class="panel">
+      <div class="barra-lista">
+        <h2>Pedidos</h2>
+        <input type="search" id="buscar" placeholder="Buscar cliente o producto...">
+      </div>
+
+      <div class="filtros" id="filtros">
+        <button type="button" class="filtro activo" data-filtro="todos">Todos</button>
+        <button type="button" class="filtro" data-filtro="pendiente">Pendientes</button>
+        <button type="button" class="filtro" data-filtro="entregado">Entregados</button>
+      </div>
+
+      <ul id="listaPedidos" class="lista"></ul>
+      <p id="vacio" class="vacio">No hay pedidos para mostrar.</p>
+
+      <div class="resumen">
+        <div><span id="totPedidos">0</span><small>pedidos</small></div>
+        <div><span id="totPendientes">0</span><small>pendientes</small></div>
+        <div><span id="totVenta">S/ 0.00</span><small>venta total</small></div>
+      </div>
+
+      <!-- Resumen por producto -->
+      <h3 class="sub-tabla">Resumen por producto</h3>
+      <p class="ayuda">Haga clic en un encabezado para ordenar.</p>
+      <table id="tblProductos">
+        <thead>
+          <tr>
+            <th data-col="producto">Producto</th>
+            <th data-col="unidades" class="num">Unidades</th>
+            <th data-col="importe" class="num">Importe</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- ===== Ejercicios propuestos ===== -->
+  <section class="ejercicios" id="ejercicios">
+    <h2>Ejercicios propuestos</h2>
+    <div class="filtros" id="tabsEj">
+      <button type="button" class="filtro activo" data-grupo="basico">Nivel básico</button>
+      <button type="button" class="filtro" data-grupo="intermedio">Nivel intermedio</button>
+    </div>
+    <p class="ayuda">Los retos avanzados (guardar, editar, resumen y tabla ordenable) están integrados arriba, en el propio proyecto.</p>
+
+    <!-- NIVEL BÁSICO -->
+    <div class="rejilla-ej" id="grupo-basico">
+
+      <article class="panel">
+        <h3>1. Cambiar título</h3>
+        <h1 id="tituloFecha" class="ej-titulo">Pulse el botón</h1>
+        <button type="button" id="btnFecha" class="ej-btn">Mostrar fecha y hora</button>
+      </article>
+
+      <article class="panel">
+        <h3>2. Galería de fotos</h3>
+        <div class="galeria-contenedor">
+          <div class="marco-grande">
+            <img id="grande" class="grande" src="https://picsum.photos/id/1060/600/350" alt="Café recién preparado">
+            <p id="captionGrande" class="caption">Café recién preparado</p>
+          </div>
+          <div class="minis" id="miniaturas">
+            <img class="mini activo" data-i="0" data-alt="Café recién preparado" src="https://picsum.photos/id/1060/150/100" alt="Café recién preparado">
+            <img class="mini" data-i="1" data-alt="Taza de capuchino con arte latte" src="https://picsum.photos/id/425/150/100" alt="Taza de capuchino con arte latte">
+            <img class="mini" data-i="2" data-alt="Granos de café tostados" src="https://picsum.photos/id/312/150/100" alt="Granos de café tostados">
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h3>3. Semáforo interactivo</h3>
+        <div class="caja-semaforo">
+          <div class="semaforo">
+            <div class="luz r" title="Rojo"></div>
+            <div class="luz a" title="Amarillo"></div>
+            <div class="luz v" title="Verde"></div>
+          </div>
+          <button type="button" id="btnLuz" class="ej-btn ej-centro">Siguiente luz</button>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h3>4. Saludo en vivo</h3>
+        <label for="nombreSaludo">Su nombre</label>
+        <input type="text" id="nombreSaludo" placeholder="Escriba su nombre" autocomplete="off">
+        <p id="saludo" class="ej-saludo">Hola, ...</p>
+      </article>
+    </div>
+
+    <!-- NIVEL INTERMEDIO -->
+    <div class="rejilla-ej" id="grupo-intermedio" hidden>
+
+      <article class="panel">
+        <h3>1. Lista de compras</h3>
+        <form id="frmCompra" class="ej-fila">
+          <input type="text" id="item" placeholder="Ej.: Leche" autocomplete="off" aria-label="Producto">
+          <button type="submit" class="ej-btn">Agregar</button>
+        </form>
+        <ul id="compras" class="ej-lista"></ul>
+        <p>Total de productos: <strong id="totalItems">0</strong></p>
+      </article>
+
+      <article class="panel">
+        <h3>2. Calculadora de IGV</h3>
+        <label for="precio">Precio unitario (S/)</label>
+        <input type="number" id="precio" min="0" step="0.01" value="0">
+        <label for="cant">Cantidad</label>
+        <input type="number" id="cant" min="0" step="1" value="1">
+        <div class="ej-res">
+          <p>Subtotal <strong id="rSub">S/ 0.00</strong></p>
+          <p>IGV (18 %) <strong id="rIgv">S/ 0.00</strong></p>
+          <p class="ej-tot">Total <strong id="rTot">S/ 0.00</strong></p>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h3>3. Preguntas frecuentes</h3>
+        <div id="faq" class="acordeon">
+          <div class="item-faq">
+            <button type="button" class="pregunta" aria-expanded="false">
+              <span>¿Qué es el DOM?</span>
+              <span class="icono">+</span>
+            </button>
+            <div class="respuesta" hidden>
+              El árbol de objetos que el navegador crea a partir del HTML y que JavaScript puede leer y modificar en tiempo real.
+            </div>
+          </div>
+          <div class="item-faq">
+            <button type="button" class="pregunta" aria-expanded="false">
+              <span>¿Por qué usar textContent?</span>
+              <span class="icono">+</span>
+            </button>
+            <div class="respuesta" hidden>
+              Porque inserta el texto de forma segura sin interpretar etiquetas HTML, evitando vulnerabilidades XSS.
+            </div>
+          </div>
+          <div class="item-faq">
+            <button type="button" class="pregunta" aria-expanded="false">
+              <span>¿Qué es la delegación de eventos?</span>
+              <span class="icono">+</span>
+            </button>
+            <div class="respuesta" hidden>
+              Consiste en asignar un solo listener al contenedor padre para gestionar las acciones de todos sus hijos.
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h3>4. Validador de registro</h3>
+        <form id="frmReg" novalidate>
+          <label for="regNombre">Nombre</label>
+          <input type="text" id="regNombre" name="nombre" autocomplete="off">
+          <small class="error" data-err="nombre"></small>
+
+          <label for="regCorreo">Correo</label>
+          <input type="email" id="regCorreo" name="correo" autocomplete="off">
+          <small class="error" data-err="correo"></small>
+
+          <label for="regClave">Contraseña</label>
+          <input type="password" id="regClave" name="clave">
+          <small class="error" data-err="clave"></small>
+
+          <label for="regConfirma">Confirmar contraseña</label>
+          <input type="password" id="regConfirma" name="confirma">
+          <small class="error" data-err="confirma"></small>
+
+          <button type="submit" id="btnReg" class="ej-btn ej-ancho" disabled>Crear cuenta</button>
+          <p class="exito" id="exito" role="status"></p>
+        </form>
+      </article>
+    </div>
+  </section>
+
+  <!-- Plantilla de pedidos -->
+  <template id="tplPedido">
+    <li class="pedido">
+      <div class="info">
+        <strong class="cliente"></strong>
+        <span class="detalle"></span>
+        <em class="nota"></em>
+      </div>
+      <span class="importe"></span>
+      <div class="acciones">
+        <button type="button" class="btn-estado" data-accion="entregar">✔ Entregar</button>
+        <button type="button" class="btn-editar" data-accion="editar" aria-label="Editar pedido">✏</button>
+        <button type="button" class="btn-eliminar" data-accion="eliminar" aria-label="Eliminar pedido">🗑</button>
+      </div>
+    </li>
+  </template>
+
+  <!-- Aviso Toast -->
+  <div id="aviso" class="aviso" role="status"></div>
+
+</body>
+</html>
